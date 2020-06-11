@@ -73,7 +73,7 @@ int main () {
 
 	mixedSample();
 	intSample();
-	stringSample();
+	// stringSample();
 	loopVarSample();
 	iterableDataSample();
 	
