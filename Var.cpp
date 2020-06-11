@@ -10,6 +10,10 @@ class VarData {
 	VarData() {
 		data = NULL;
 	}
+	template<typename DataType>	
+	VarData(DataType v) {
+		data = (int*)new DataType(v);
+	}
 	~VarData() {
 		if(data) delete data;
 		data = NULL;
@@ -34,13 +38,19 @@ class Var {
 	
 	public:
 	Var(){};
+
+	template<typename DataType>	
+	Var(DataType v) {
+		data = (DataType) v;
+	}
 	Var &operator[](const uint el) {
 		return b[el];
 	}
 	
 	template<typename DataType>	
 	DataType &operator=(const DataType v) {
-		return (DataType&)(data = (DataType) v);
+		data = (DataType) v;
+		return (DataType&)(data);
 	}
 	
 	template<typename DataType>	
@@ -61,6 +71,8 @@ int main () {
 	char as = s[3][1];
 	int af = s[1];
 	string str = s[3][123];
+	Var b = 42;
+	cout << "b : " << (int) b << endl;
 	
 	cout << "s[1]: " << af << endl;
 	cout << "s[2][2]: " << (float)s[2][2]<< endl;
