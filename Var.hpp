@@ -1,3 +1,6 @@
+#ifndef _H_VAR_H_
+#define _H_VAR_H_
+
 #include <string>
 #include <map>
 
@@ -123,3 +126,5 @@ namespace std {
 	}
 }
 typedef Var var;
+
+#endif // _H_VAR_H_

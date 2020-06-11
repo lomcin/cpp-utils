@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#include "var.hpp"
+#include "Var.hpp"
 
 using namespace std;
 
