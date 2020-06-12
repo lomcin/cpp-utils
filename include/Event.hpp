@@ -3,7 +3,7 @@
 
 class Object;
 
-typedef enum EventType {
+typedef enum EventTypeEnum {
     unknown = 0,
     onClick,
     onPress,
@@ -13,7 +13,7 @@ typedef enum EventType {
     onUpdate,
     onOpen,
     onClose
-};
+} EventType;
 
 class Event {
     friend Object;

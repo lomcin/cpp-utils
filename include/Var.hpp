@@ -3,39 +3,9 @@
 
 #include <string>
 #include <map>
+#include "VarData.hpp"
 
 typedef unsigned int uint;
-
-class VarData {
-	int *data;
-	
-	public:
-	VarData() {
-		data = NULL;
-	}
-
-	template<typename DataType>	
-	VarData(DataType v) {
-		data = (int*)new DataType(v);
-	}
-
-	~VarData() {
-		if(data) delete data;
-		data = NULL;
-	}
-	
-	template<typename DataType>	
-	DataType &operator=(const DataType v) {
-		if (data) delete data;
-		data = (int*)new DataType(v);
-		return (DataType&)(*((DataType*)data));
-	}
-	
-	template<typename DataType>	
-	operator DataType&() {
-		return (DataType&)(*((DataType*)this->data));
-	}
-};
 
 class Var {
 	VarData data; // data from construction or assignment
@@ -120,6 +90,7 @@ class Var {
 	}
 };
 
+// Added to_string overload
 namespace std {
 	string to_string(Var v) {
 		return static_cast<string&>(v);
