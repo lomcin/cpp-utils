@@ -2,6 +2,7 @@
 #define _H_EVENT_H_
 
 class Object;
+class EventManager;
 
 typedef enum EventTypeEnum {
     unknown = 0,
@@ -17,13 +18,14 @@ typedef enum EventTypeEnum {
 
 class Event {
     friend Object;
+    friend EventManager;
 
     EventType m_type;
-    void* m_target = nullptr;
+    EventManager* m_target = nullptr;
 
     public:
 
-    Event(EventType type, void* target) {
+    Event(EventType type, EventManager* target) {
         m_type = type;
         m_target = target;
     }
@@ -32,7 +34,7 @@ class Event {
         return m_type;
     }
 
-    void* target() {
+    EventManager* target() {
         return m_target;
     }
 
