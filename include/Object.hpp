@@ -2,7 +2,7 @@
 #define _H_OBJECT_H_
 #include "EventManager.hpp"
 
-class Object : EventManager{
+class Object : public EventManager{
     public:
     Object(){};
 };
