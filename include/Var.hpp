@@ -1,16 +1,13 @@
 #ifndef _H_VAR_H_
 #define _H_VAR_H_
 
-#include <string>
-#include <map>
+#include "BasicTypes.hpp"
 #include "VarData.hpp"
-
-typedef unsigned int uint;
 
 class Var {
 	VarData data; // data from construction or assignment
-	std::map<std::string, Var> adata; // associative data
-	std::map<uint, Var> idata; // iterable data
+	std::unordered_map<std::string, Var> adata; // associative data
+	std::unordered_map<uint, Var> idata; // iterable data
 	
 	public:
 	Var(){};

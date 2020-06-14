@@ -1,12 +1,15 @@
 #ifndef _H_OBJECT_H_
 #define _H_OBJECT_H_
 #include "EventManager.hpp"
+#include "DynamicTyper.hpp"
 
-class Object : public EventManager{
+class Object : public EventManager, DynamicTyper {
     std::string m_name;
     public:
     Object(std::string name):m_name(name)
-    {};
+    {
+        registerClass()
+    };
     std::string name() {
         return m_name;
     }

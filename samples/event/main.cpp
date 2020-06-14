@@ -36,7 +36,6 @@ class AClass {
     AClass(std::string name):m_name(name)
     {}
     void onchange(Event e) {
-        cout << __FUNCTION__ << endl;
         std::cout << "Name: " << m_name << std::endl;
         m_name += "_" + m_name; // If the m_name was "a", then it will be "a_a"
         std::cout << "Modified Name: " << m_name << std::endl;
@@ -71,10 +70,23 @@ void objectMethodContext() {
     std::cout << "Modified Name for b: " << b.name() << endl;
 }
 
+
+void dynamicType() {
+    DynamicType::insert("AClass");
+    DynamicType::insert("BClass");
+    strings classes = DynamicType::classes();
+    cout << endl << "Classes: " << endl;
+    for (string &c : classes) {
+        cout << c << endl;
+    }
+    cout << endl;
+}
+
 int main () {
 
     sample0();
     objectMethodContext();
+    dynamicType();
 
     return 0;
 }

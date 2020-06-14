@@ -1,8 +1,7 @@
 #ifndef _H_EVENT_MANAGER_H_
 #define _H_EVENT_MANAGER_H_
 #include "Event.hpp"
-#include <vector>
-#include <unordered_map>
+#include "BasicTypes.hpp"
 #include <functional>
 
 typedef void (*EventListenerFunctionC)(Event e);
@@ -42,6 +41,5 @@ void EventManager::dispatchEvent(Event event) {
 void EventManager::dispatchEvent(EventType eventType) {
     dispatchEvent(Event(eventType,this));
 }
-
 
 #endif // _H_EVENT_MANAGER_H_
