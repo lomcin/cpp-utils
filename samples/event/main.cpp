@@ -18,7 +18,7 @@ void sample0() {
     // Print some info about the sample
     cout << __FUNCTION__ << endl;
 
-    Object a;
+    EventManager a;
     
     Event e(EventType::onChange, &a);
 
@@ -33,13 +33,14 @@ void sample0() {
 class AClass {
     std::string m_name;
     public:
-    AClass(std::string name) {
-        m_name.assign(name.begin(), name.end());
-    }
+    AClass(std::string name):m_name(name)
+    {}
     void onchange(Event e) {
-        std::cout << "Name: " << m_name << endl;
+        cout << __FUNCTION__ << endl;
+        std::cout << "Name: " << m_name << std::endl;
         m_name += "_" + m_name; // If the m_name was "a", then it will be "a_a"
-        std::cout << "Modified Name: " << m_name << endl;
+        std::cout << "Modified Name: " << m_name << std::endl;
+        std::cout << "Target name " << e.target()->name() << std::endl;
     }
     std::string name() {
         return m_name;
@@ -52,7 +53,7 @@ void objectMethodContext() {
     // Print some info about the sample
     cout << __FUNCTION__ << endl;
 
-    Object obj;
+    Object obj("obj");
 
     // Creating two instances of AClass
     AClass a("a"), b("b");
@@ -61,6 +62,8 @@ void objectMethodContext() {
     obj.addEventListener(EventType::onFrame,toFunction(a.onchange));
     obj.addEventListener(EventType::onFrame,toFunction(b.onchange));
 
+    obj.dispatchEvent(EventType::onFrame);
+    obj.dispatchEvent(EventType::onFrame);
     obj.dispatchEvent(EventType::onFrame);
 
     // As you can see here, the expected behavior is to print a_a and b_b

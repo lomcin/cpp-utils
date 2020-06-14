@@ -21,20 +21,26 @@ class Event {
     friend EventManager;
 
     EventType m_type;
-    EventManager* m_target = nullptr;
+    Object* m_target = nullptr;
 
     public:
 
-    Event(EventType type, EventManager* target) {
+    Event(EventType type, Object* target) {
         m_type = type;
         m_target = target;
+    }
+
+    template<typename ObjectInheritedType>
+    Event(EventType type, ObjectInheritedType* target) {
+        m_type = type;
+        m_target = reinterpret_cast<Object*>(target);
     }
 
     EventType type() {
         return m_type;
     }
 
-    EventManager* target() {
+    Object* target() {
         return m_target;
     }
 
