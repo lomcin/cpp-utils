@@ -3,11 +3,11 @@
 
 using namespace std;
 
-void Changed(Event e) {
+int Changed(Event e) {
     printf("Changed something!\n");
 }
 
-void Updated(Event e) {
+int Updated(Event e) {
     printf("Updated something!\n");
 }
 
@@ -30,19 +30,17 @@ void sample0() {
 
 }
 
-class AClass {
-    std::string m_name;
+class AClass : public Object {
     public:
-    AClass(std::string name):m_name(name)
-    {}
-    void onchange(Event e) {
-        std::cout << "Name: " << m_name << std::endl;
-        m_name += "_" + m_name; // If the m_name was "a", then it will be "a_a"
-        std::cout << "Modified Name: " << m_name << std::endl;
-        std::cout << "Target name " << e.target()->name() << std::endl;
+    AClass(std::string name):Object(name)
+    {
+        registerClass()
     }
-    std::string name() {
-        return m_name;
+    int onchange(Event e) {
+        std::cout << "Name: " << name() << std::endl;
+        name() += "_" + name(); // If the name() was "a", then it will be "a_a"
+        std::cout << "Modified Name: " << name() << std::endl;
+        std::cout << "Target name " << e.target()->name() << std::endl;
     }
 };
 
@@ -68,18 +66,19 @@ void objectMethodContext() {
     // As you can see here, the expected behavior is to print a_a and b_b
     std::cout << "Modified Name for a: " << a.name() << endl;
     std::cout << "Modified Name for b: " << b.name() << endl;
+    
 }
 
 
 void dynamicType() {
-    DynamicType::insert("AClass");
-    DynamicType::insert("BClass");
     strings classes = DynamicType::classes();
     cout << endl << "Classes: " << endl;
     for (string &c : classes) {
         cout << c << endl;
     }
     cout << endl;
+    Object obj("obj");
+    cout << obj.name() << " is a " << obj.className() << endl;
 }
 
 int main () {

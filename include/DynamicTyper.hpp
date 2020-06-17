@@ -21,8 +21,7 @@ class DynamicTyper {
     std::string m_class_name;
 
     public:
-    DynamicTyper() {
-        registerClass()
+    DynamicTyper():m_class_name("Undefined") {
     }
 
     std::string className() {
