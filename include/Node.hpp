@@ -9,7 +9,7 @@
 
 typedef enum NodeTypeEnum
 {
-    NodeType_Unknown = 0,
+    NodeType_Undefined = 0,
     NodeType_Variable,
     NodeType_Function,
     NodeType_Object
@@ -39,30 +39,16 @@ namespace NodeScope
 
 class Node
 {
+
 protected:
     NodeData *data;
-    Node(const Node &node)
-    {
-        removeNodeInfoFromNodeScope();
-        data = node.data;
-    }
-
-    Node()
-    {
-        data = nullptr;
-    }
-
-    ~Node()
-    {
-        removeNodeInfoFromNodeScope();
-    }
 
     template <typename T>
     void assignContentToData(const T &content)
     {
         // We should not expect this to happen!
         if (data == nullptr)
-            throw std::runtime_error("Something really wrong happened here.\n");
+            throw std::runtime_error("Something really wrong happened here in assignContentToData.\n");
         // We cannot use different types for initialization of setting in already defined nodes
         if (data->content_type_hash == 0)
         {
@@ -121,7 +107,7 @@ protected:
             }
             else
             {
-                throw std::runtime_error("Something really wrong happened here.");
+                throw std::runtime_error("Something really wrong happened in initDataInNodeScope.");
             }
         }
         else
@@ -165,6 +151,34 @@ protected:
     }
 
 public:
+    template <typename T>
+    Node(T *ptr, const T &content) : data(nullptr)
+    {
+        set(ptr, content);
+        data->type = NodeType_Variable;
+    }
+
+    template <typename T>
+    Node(T *ptr) : data(nullptr)
+    {
+        set(ptr);
+        data->type = NodeType_Variable;
+    }
+
+    Node(const Node &node) : data(nullptr)
+    {
+        removeNodeInfoFromNodeScope();
+        data = node.data;
+    }
+
+    Node() : data(nullptr)
+    {
+    }
+
+    ~Node()
+    {
+        removeNodeInfoFromNodeScope();
+    }
     NodeType type()
     {
         return data->type;
@@ -174,6 +188,7 @@ public:
     Node &set(T *ptr, const T &content)
     {
         initDataInNodeScope(ptr, content);
+        data->type = NodeType_Variable;
         return *this;
     }
 
@@ -181,6 +196,7 @@ public:
     Node &set(T *ptr)
     {
         initDataInNodeScope(ptr);
+        data->type = NodeType_Variable;
         return *this;
     }
 
@@ -188,6 +204,7 @@ public:
     Node &set(const T &content)
     {
         assignContentToData(content);
+        data->type = NodeType_Variable;
         return *this;
     }
 
@@ -195,6 +212,17 @@ public:
     Node &operator=(const T &content)
     {
         return set(content);
+    }
+
+    Node &operator=(const Node &node)
+    {
+        if (node.data == nullptr)
+            throw std::runtime_error("Node data is NULL.");
+        if (data != nullptr && node.data->type != data->type)
+            throw std::runtime_error("Node is from different type, therefore we cannot assign it.");
+        removeNodeInfoFromNodeScope();
+        data = node.data;
+        return *this;
     }
 
     template <typename T>
@@ -210,64 +238,5 @@ public:
         return *(data->parent);
     }
 };
-
-class VariableNode : public Node
-{
-public:
-    template <typename T>
-    VariableNode(T *ptr, const T &content)
-    {
-        set(ptr, content);
-        data->type = NodeType_Variable;
-    }
-
-    template <typename T>
-    VariableNode(T *ptr)
-    {
-        set(ptr);
-        data->type = NodeType_Variable;
-    }
-};
-
-class FunctionNode : public Node
-{
-public:
-    template <typename T>
-    FunctionNode(T *ptr, const T &content)
-    {
-        data->type = NodeType_Function;
-        set(ptr, content);
-    }
-
-    template <typename T>
-    FunctionNode(T *ptr)
-    {
-        data->type = NodeType_Function;
-        set(ptr);
-    }
-};
-
-class ObjectNode : public Node
-{
-public:
-    template <typename T>
-    ObjectNode(T *ptr, const T &content)
-    {
-        data->type = NodeType_Object;
-        set(ptr, content);
-    }
-
-    template <typename T>
-    ObjectNode(T *ptr)
-    {
-        data->type = NodeType_Object;
-        set(ptr);
-    }
-};
-
-// Just defining some aliases
-typedef VariableNode VarNode;
-typedef FunctionNode FuncNode;
-typedef ObjectNode ObjNode;
 
 #endif // _H_NODE_H_

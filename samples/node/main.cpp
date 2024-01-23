@@ -13,17 +13,19 @@ void values_samples()
     printf("NodeScope size: %d\n", static_cast<int>(NodeScope::nodes.size()));
 
     {
-        // These VarNodes only exists in this scope.
-        VarNode nwidth(&width, 640);
-        VarNode nheight(&height, 480);
+        // These Nodes only exists in this scope.
+        Node nwidth(&width, 640);
+        Node nheight(&height, 480);
 
         printf("W x H: %d %d\n", width, height);
 
-        VarNode nheight2(&height, 240); // First edundant reference for the same variable node
+        Node nheight2(nheight); // First edundant reference for the same variable node
+        nheight2 = 240;
+        nheight2 = nheight.set(480);
 
         printf("W x H: %d %d\n", width, height);
 
-        VarNode *nheight3 = new VarNode(&height); // Second redundant reference for the same variable node
+        Node *nheight3 = new Node(&height); // Second redundant reference for the same variable node
         nheight3->set(120);
 
         printf("W x H: %d %d\n", width, height);
