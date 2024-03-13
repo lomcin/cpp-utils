@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef _H_NODE_H_
-#define _H_NODE_H_
+#ifndef _H_NODE_GRAPH_H_
+#define _H_NODE_GRAPH_H_
 
 #include <unordered_map>
 #include <typeinfo>
@@ -263,4 +263,4 @@ public:
     }
 };
 
-#endif // _H_NODE_H_
+#endif // _H_NODE_GRAPH_H_
